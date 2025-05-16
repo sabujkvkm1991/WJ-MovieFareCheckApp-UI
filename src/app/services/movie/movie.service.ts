@@ -7,16 +7,15 @@ import { MovieDetails } from '../../models/movie-details';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class MovieService {
   private apiUrl = `${environment.baseUrl}/MovieFare`; // Your .NET Web API base URL
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getMovies(): Observable<Movie[]> {
-    var data = this.http.get<Movie[]>(`${this.apiUrl}/GetAllMovies`)
+    var data = this.http.get<Movie[]>(`${this.apiUrl}/GetAllMovies`);
     return data;
   }
 
@@ -25,6 +24,8 @@ export class MovieService {
   }
 
   getMovieDetails(movieId: string): Observable<MovieDetails> {
-    return this.http.get<MovieDetails>(`${this.apiUrl}/GetMovieDetailsById/${movieId}`);
+    return this.http.get<MovieDetails>(
+      `${this.apiUrl}/GetMovieDetailsById/${movieId}`
+    );
   }
 }

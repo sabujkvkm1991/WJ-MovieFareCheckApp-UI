@@ -13,7 +13,7 @@ describe('MovieService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpTestingController],
-      providers: [MovieService]
+      providers: [MovieService],
     });
 
     service = TestBed.inject(MovieService);
@@ -30,11 +30,23 @@ describe('MovieService', () => {
 
   it('should fetch all movies', () => {
     const mockMovies: Movie[] = [
-      { id: '1', title: 'Inception', poster: 'https://example.com/inception.jpg', year: '2010', type: 'Sci-Fi' },
-      { id: '2', title: 'The Matrix', poster: 'https://example.com/matrix.jpg', year: '1999', type: 'Action' }
+      {
+        id: '1',
+        title: 'Inception',
+        poster: 'https://example.com/inception.jpg',
+        year: '2010',
+        type: 'Sci-Fi',
+      },
+      {
+        id: '2',
+        title: 'The Matrix',
+        poster: 'https://example.com/matrix.jpg',
+        year: '1999',
+        type: 'Action',
+      },
     ];
 
-    service.getMovies().subscribe(movies => {
+    service.getMovies().subscribe((movies) => {
       expect(movies.length).toBe(2);
       expect(movies).toEqual(mockMovies);
     });
@@ -57,22 +69,24 @@ describe('MovieService', () => {
       id: 'tt1375666',
       language: 'English',
       metascore: '74',
-      price: 10.00,
+      price: 10.0,
       rating: '8.8',
       runtime: '148 min',
       rated: 'PG-13',
       released: '2010-07-16',
       writer: 'Christopher Nolan',
       type: 'movie',
-      votes: '1,000,000'
+      votes: '1,000,000',
     };
 
-    service.getMovieDetails('1').subscribe(details => {
+    service.getMovieDetails('1').subscribe((details) => {
       expect(details.title).toBe('Inception');
       expect(details.director).toContain('Nolan');
     });
 
-    const req = httpMock.expectOne(`${environment.baseUrl}/GetMovieDetailsById/1`);
+    const req = httpMock.expectOne(
+      `${environment.baseUrl}/GetMovieDetailsById/1`
+    );
     expect(req.request.method).toBe('GET');
     req.flush(mockDetails);
   });
@@ -81,11 +95,11 @@ describe('MovieService', () => {
     const mockComparison: FareComparison = {
       provider: 'CinemaWorld',
       movieId: '1',
-      title: 'Inception',      
-      cheapestPrice: '10'
+      title: 'Inception',
+      cheapestPrice: '10',
     };
 
-    service.comparePrice('1').subscribe(data => {
+    service.comparePrice('1').subscribe((data) => {
       expect(data.provider).toBe('FilmWorld');
       expect(data.cheapestPrice).toBe('10');
     });
