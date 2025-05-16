@@ -1,4 +1,4 @@
-import { Component, Input, input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { FareComparison } from '../../models/fare-comparison';
 import { CurrencyPipe } from '@angular/common';
@@ -12,6 +12,4 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class MovieBestPriceComponent {
   @Input() fareComparison!: FareComparison;
-
-  constructor() {}
 }

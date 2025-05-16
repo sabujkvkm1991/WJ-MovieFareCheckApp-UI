@@ -1,27 +1,16 @@
-import { Router, Routes } from '@angular/router';
-import { ComparePriceComponent } from './pages/compare-price/compare-price.component';
+import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
-import { inject } from '@angular/core';
-import { AuthService } from './services/auth/auth.service';
+import { authGuard } from './guards/auth/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   {
     path: 'dashboard',
-    component: ComparePriceComponent,
-    canActivate: [
-      () => {
-        const isLoggedIn = inject(AuthService).isLoggedIn();
-        const router: Router = inject(Router);
-
-        if (!isLoggedIn) {
-          router.navigate(['login']);
-          return false;
-        }
-
-        return true;
-      },
-    ],
+    loadComponent: () =>
+      import('./pages/compare-price/compare-price.component').then(
+        (c) => c.ComparePriceComponent
+      ),
+    canActivate: [authGuard],
   },
   { path: 'login', component: LoginComponent },
 ];

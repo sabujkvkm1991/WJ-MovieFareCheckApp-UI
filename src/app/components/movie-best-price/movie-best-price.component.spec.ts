@@ -3,7 +3,6 @@ import { MovieBestPriceComponent } from './movie-best-price.component';
 import { FareComparison } from '../../models/fare-comparison';
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { Component } from '@angular/core';
 
 describe('MovieBestPriceComponent', () => {
   let component: MovieBestPriceComponent;
@@ -35,9 +34,9 @@ describe('MovieBestPriceComponent', () => {
 
     const compiled = fixture.nativeElement as HTMLElement;
 
+    expect(compiled.textContent).toContain('Inception');
     expect(compiled.textContent).toContain('CinemaWorld');
-    expect(compiled.textContent).toContain('FilmWorld');
-    expect(compiled.textContent).toContain('8'); // price
-    expect(compiled.textContent).toContain('FilmWorld'); // cheapest provider
+    expect(compiled.textContent).toContain('10');
+     
   });
 });

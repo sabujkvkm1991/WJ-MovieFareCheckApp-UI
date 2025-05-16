@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatCard, MatCardContent, MatCardTitle } from '@angular/material/card';
 import { MovieDetails } from '../../models/movie-details';
 
@@ -11,5 +11,4 @@ import { MovieDetails } from '../../models/movie-details';
 })
 export class MovieDetailsComponent {
   @Input() details!: MovieDetails;
-  constructor() {}
 }

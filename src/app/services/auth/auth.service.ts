@@ -35,6 +35,10 @@ export class AuthService {
     return localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
   }
 
+  logout(): void {
+     localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
+  }
+
   private setToken(token: string): void {
     localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
   }

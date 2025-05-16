@@ -10,6 +10,7 @@ import { MovieDetailsComponent } from '../../components/movie-details/movie-deta
 import { finalize } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-compare-price',
@@ -23,18 +24,21 @@ import { Router } from '@angular/router';
     MovieDetailsComponent,
     MatProgressSpinnerModule,
   ],
-  providers: [MovieService],
 })
 export class ComparePriceComponent implements OnInit {
   movies: Movie[] = [];
-  selectedMovieId: string = '';
+  selectedMovieId = '';
   result?: FareComparison;
   movieDetails?: MovieDetails;
   error?: string;
-  isLoading: boolean = false;
-  isMovieLoading: boolean = false;
+  isLoading = false;
+  isMovieLoading = false;
 
-  constructor(private movieService: MovieService, private router: Router) {}
+  constructor(
+    private movieService: MovieService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.isMovieLoading = true;
@@ -43,7 +47,7 @@ export class ComparePriceComponent implements OnInit {
       .pipe(finalize(() => (this.isMovieLoading = false)))
       .subscribe({
         next: (res) => (this.movies = res),
-        error: (err) => (this.error = 'Failed to load movies'),
+        error: () => (this.error = 'Failed to load movies'),
       });
   }
 
@@ -59,7 +63,7 @@ export class ComparePriceComponent implements OnInit {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (res) => (this.result = res),
-        error: (err) => (this.error = 'Comparison failed'),
+        error: () => (this.error = 'Comparison failed'),
       });
   }
 
@@ -76,12 +80,12 @@ export class ComparePriceComponent implements OnInit {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (res) => (this.movieDetails = res),
-        error: (err) => (this.error = 'Movie details fetch failed'),
+        error: () => (this.error = 'Movie details fetch failed'),
       });
   }
 
   logout() {
-    localStorage.clear(); // ✅ or just remove token: localStorage.removeItem('token');
-    this.router.navigate(['/login']); // ✅ redirect to login
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

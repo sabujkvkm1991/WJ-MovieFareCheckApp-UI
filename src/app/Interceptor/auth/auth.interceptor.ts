@@ -13,7 +13,8 @@ export function authInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ) {
-  const token: string | null = inject(AuthService).getToken();
+  const authSevice = inject(AuthService);
+  const token: string | null = authSevice.getToken();
   const router: Router = inject(Router);
   const snackBar = inject(MatSnackBar);
 
@@ -28,6 +29,7 @@ export function authInterceptor(
         error: (error) => {
           if (error instanceof HttpErrorResponse && error.status === 401) {
             snackBar.open('Session expired. Redirecting to login page.');
+            authSevice.logout();
             router.navigate(['login']);
           }
         },

@@ -1,81 +1,64 @@
-import {
-  TestBed,
-  ComponentFixture,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
+import { of, throwError } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { environment } from '../../../environments/environment';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
+describe('LoginComponent (Standalone)', () => {
   let fixture: ComponentFixture<LoginComponent>;
-  let httpMock: HttpTestingController;
+  let component: LoginComponent;
+  let authServiceSpy: jasmine.SpyObj<AuthService>;
   let routerSpy: jasmine.SpyObj<Router>;
 
-  beforeEach(async () => {
-    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+  beforeEach(waitForAsync(() => {
+    authServiceSpy = jasmine.createSpyObj<AuthService>('AuthService', [
+      'login',
+    ]);
+    routerSpy = jasmine.createSpyObj<Router>('Router', ['navigate']);
 
-    await TestBed.configureTestingModule({
-      imports: [LoginComponent, HttpClientTestingModule, FormsModule],
-      providers: [{ provide: Router, useValue: routerSpy }],
+    TestBed.configureTestingModule({
+      imports: [LoginComponent, FormsModule],
+      providers: [
+        { provide: AuthService, useValue: authServiceSpy },
+        { provide: Router, useValue: routerSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
-    httpMock = TestBed.inject(HttpTestingController);
-  });
-
-  afterEach(() => {
-    httpMock.verify(); // ensure no outstanding requests
-    localStorage.clear(); // clean up after tests
-  });
+  }));
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should perform login and navigate on success', fakeAsync(() => {
-    component.username = 'admin';
-    component.password = 'password';
+  it('should call authService.login and navigate on successful login', () => {
+    component.username = 'testuser';
+    component.password = 'password123';
+    authServiceSpy.login.and.returnValue(of({ token: 'mockToken' }));
+
     component.login();
 
-    const req = httpMock.expectOne(`${environment.baseUrl}/login`);
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual({
-      username: 'admin',
-      password: 'password',
-    });
-
-    const mockToken = 'mock-jwt-token';
-    req.flush({ token: mockToken });
-
-    tick();
-
-    expect(localStorage.getItem('token')).toBe(mockToken);
+    expect(authServiceSpy.login).toHaveBeenCalledWith(
+      'testuser',
+      'password123'
+    );
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/dashboard']);
-  }));
+    expect(component.error).toBeUndefined();
+  });
 
-  it('should handle login error and show message', fakeAsync(() => {
-    component.username = 'invalid';
-    component.password = 'wrong';
-    component.login();
-
-    const req = httpMock.expectOne(`${environment.baseUrl}/login`);
-    req.flush(
-      { message: 'Invalid credentials' },
-      { status: 401, statusText: 'Unauthorized' }
+  it('should show error message on failed login', () => {
+    component.username = 'wronguser';
+    component.password = 'wrongpass';
+    authServiceSpy.login.and.returnValue(
+      throwError(() => new Error('Invalid credentials'))
     );
 
-    tick();
+    component.login();
 
+    expect(authServiceSpy.login).toHaveBeenCalledWith('wronguser', 'wrongpass');
     expect(component.error).toBe('Login failed');
     expect(routerSpy.navigate).not.toHaveBeenCalled();
-  }));
+  });
 });

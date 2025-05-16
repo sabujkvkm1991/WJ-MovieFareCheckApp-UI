@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FareComparison } from '../../models/fare-comparison';
@@ -15,7 +15,7 @@ export class MovieService {
   constructor(private http: HttpClient) {}
 
   getMovies(): Observable<Movie[]> {
-    var data = this.http.get<Movie[]>(`${this.apiUrl}/GetAllMovies`);
+    const data = this.http.get<Movie[]>(`${this.apiUrl}/GetAllMovies`);
     return data;
   }
 
