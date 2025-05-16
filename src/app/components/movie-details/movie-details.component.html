@@ -1,0 +1,27 @@
+<mat-card>
+  <mat-card-title>📽️ Movie Details</mat-card-title>
+  <mat-card-content>
+    <div class="poster-and-info">
+      @if(details.poster) {
+      <img [src]="details.poster" alt="Movie Poster" class="movie-poster" />
+      }
+      <div class="grid-layout">
+        <div><strong>Title:</strong> {{ details.title }}</div>
+        <div><strong>Year:</strong> {{ details.year }}</div>
+        <div><strong>Rated:</strong> {{ details.rated }}</div>
+        <div><strong>Released:</strong> {{ details.released }}</div>
+        <div><strong>Runtime:</strong> {{ details.runtime }}</div>
+        <div><strong>Genre:</strong> {{ details.genre }}</div>
+        <div><strong>Director:</strong> {{ details.director }}</div>
+        <div><strong>Writer:</strong> {{ details.writer }}</div>
+        <div><strong>Actors:</strong> {{ details.actors }}</div>
+        <div><strong>Plot:</strong> {{ details.plot }}</div>
+        <div><strong>Language:</strong> {{ details.language }}</div>
+        <div><strong>Country:</strong> {{ details.country }}</div>
+        <div><strong>Rating:</strong> {{ details.rating }}</div>
+        <div><strong>Votes:</strong> {{ details.votes }}</div>
+        <div><strong>Type:</strong> {{ details.type }}</div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

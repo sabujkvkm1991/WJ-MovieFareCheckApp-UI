@@ -1,0 +1,106 @@
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  font-family: "Roboto", sans-serif;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .title {
+    text-align: center;
+    color: #00bfa5;
+    margin-bottom: 24px;
+    font-size: 2rem;
+  }
+
+  .logout-button {
+    background-color: #7a73b0;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #4a77da;
+    }
+  }
+
+  .movie-info {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+
+    .compare-button {
+      display: block;
+      margin: 24px auto 0;
+      padding: 10px 24px;
+      font-weight: 600;
+      border-radius: 8px;
+      background-color: #00bfa5;
+      color: #fff;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: #00a896;
+      }
+    }
+  }
+
+  .card-section {
+    margin-top: 40px;
+  }
+
+  .loading-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 32px;
+    color: #b2dfdb;
+    font-weight: 500;
+    font-size: 1.1rem;
+
+    mat-spinner {
+      margin-bottom: 16px;
+    }
+  }
+
+  .error-message {
+    color: #ef5350;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+  }
+}
+
+.loading-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: #00acc1;
+
+  mat-spinner {
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+}

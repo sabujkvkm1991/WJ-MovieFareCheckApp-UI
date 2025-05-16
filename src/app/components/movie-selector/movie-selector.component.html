@@ -1,0 +1,11 @@
+<div class="form-section">
+  <mat-form-field appearance="outline" class="movie-select">
+    <mat-label>🎞️ Choose a Movie</mat-label>
+    <mat-select (selectionChange)="onSelectMovie($event.value)">
+      <mat-option disabled selected value="">-- Select --</mat-option>
+      <mat-option *ngFor="let movie of movies" [value]="movie">
+        🎬 {{ movie.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

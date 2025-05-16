@@ -1,0 +1,43 @@
+@if(!isMovieLoading) {
+<div class="container">
+  <div class="header">
+    <h2>🎬 Compare Movie Price</h2>
+    <button mat-raised-button color="accent" (click)="logout()">Logout</button>
+  </div>
+
+  <app-movie-selector
+    [movies]="movies"
+    (movieSelected)="fetchMovieDetails($event)"
+  />
+
+  @if(movieDetails) {
+  <div class="movie-info">
+    <app-movie-details [details]="movieDetails" />
+    <button
+      mat-flat-button
+      color="accent"
+      class="compare-button"
+      (click)="onCompare()"
+    >
+      Compare Price
+    </button>
+  </div>
+  } @if(result){
+  <div class="card-section">
+    <app-movie-best-price [fareComparison]="result" />
+  </div>
+  } @if (isLoading) {
+  <div class="loading-message">
+    <mat-spinner />
+    <p>Loading...</p>
+  </div>
+  } @if (error) {
+  <p class="error-message">{{ error }}</p>
+  }
+</div>
+} @if (isMovieLoading) {
+<div class="loading-overlay">
+  <mat-spinner />
+  <p>Loading...</p>
+</div>
+}

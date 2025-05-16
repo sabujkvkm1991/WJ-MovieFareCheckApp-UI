@@ -1,0 +1,59 @@
+.form-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+
+  .full-width {
+    flex: 1;
+  }
+
+  mat-form-field {
+    background-color: #1e1e1e;
+  }
+
+  mat-label,
+  mat-select {
+    color: #e0e0e0 !important;
+  }
+
+  .compare-button {
+    background-color: #00bfa5;
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    padding: 10px 20px;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #00a896;
+    }
+
+    &:disabled {
+      background-color: #555;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+  }
+
+  .movie-select {
+    flex: 1;
+    min-width: 250px;
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    mat-label {
+      color: #b2dfdb;
+      font-weight: 500;
+    }
+
+    mat-option {
+      font-size: 15px;
+    }
+  }
+}

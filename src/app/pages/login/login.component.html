@@ -1,0 +1,42 @@
+<!-- login.component.html -->
+<div class="login-container">
+  <form class="login-form" (ngSubmit)="login()" #loginForm="ngForm" novalidate>
+    <h2>🔐 Login</h2>
+
+    <input
+      type="text"
+      name="username"
+      [(ngModel)]="username"
+      #usernameRef="ngModel"
+      placeholder="Username"
+      required
+    />
+
+    @if(usernameRef.invalid && usernameRef.touched) {
+    <div class="error-msg">Username is required.</div>
+    }
+
+    <input
+      type="password"
+      name="password"
+      [(ngModel)]="password"
+      #passwordRef="ngModel"
+      placeholder="Password"
+      required
+      minlength="6"
+    />
+
+    @if(passwordRef.invalid && passwordRef.touched) {
+    <div class="error-msg">
+      @if(passwordRef.errors?.['required']){<span>Password is required.</span>}
+      @if(passwordRef.errors?.['minlength']){<span>Minimum 6 characters.</span>}
+    </div>
+    }
+
+    <button type="submit" [disabled]="loginForm.invalid">Login</button>
+
+    @if(error){
+    <p class="error-message">{{ error }}</p>
+    }
+  </form>
+</div>
